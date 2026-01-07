@@ -1,0 +1,8 @@
+import pandas as pd
+
+def second_highest_salary(employee: pd.DataFrame) -> pd.DataFrame:
+    if employee['salary'].nunique()>1:
+        val= employee['salary'].sort_values(ascending=False).unique()[1]
+    else:
+        val =None
+    return pd.DataFrame([val],columns=['SecondHighestSalary'])

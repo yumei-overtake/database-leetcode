@@ -1,0 +1,14 @@
+---- Solution 1  
+with A AS (
+SELECT *,
+      dense_rank() over (order by salary desc) as rk
+FROM Employee
+)
+SELECT MAX(CASE WHEN RK=2 THEN Salary else null end ) as SecondHighestSalary
+FROM A 
+
+
+---- Solution 2
+SELECT max(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary <(SELECT MAX(salary) as salary from Employee)
