@@ -1,0 +1,5 @@
+SELECT ee.name as Employee 
+FROM Employee as ee
+LEFT JOIN Employee as Mg
+        on ee.managerId=Mg.id
+WHERE ee.salary>mg.salary
