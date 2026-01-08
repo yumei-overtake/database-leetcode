@@ -1,0 +1,13 @@
+import pandas as pd
+
+def delete_duplicate_emails(person: pd.DataFrame) -> None:
+    # 1. Sort the original object in place
+    person.sort_values('id', ascending=True, inplace=True)
+    
+    # 2. Drop duplicates in the original object in place
+    person.drop_duplicates(subset=['email'], keep='first', inplace=True)
+
+
+# notes: need to use inplace=True on both statements. 
+# if do person = person.sort_..., it is creating a new local copy of person, not the original person!
+# No 'return' needed because the original object was modified 
