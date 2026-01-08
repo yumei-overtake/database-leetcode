@@ -1,0 +1,12 @@
+DELETE FROM Person
+WHERE id in (
+    select id 
+    from (
+    SELECT id,
+           row_number() over(partition by email order by id asc) as rn
+    from person
+    ) as t
+    where rn>1
+)
+
+/* Notes: delete does not support with cte */
