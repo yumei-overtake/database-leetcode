@@ -1,0 +1,4 @@
+SELECT t.id
+FROM Weather AS t
+JOIN Weather AS y ON t.recordDate = DATEADD(day, 1, y.recordDate)
+WHERE y.temperature < t.temperature;

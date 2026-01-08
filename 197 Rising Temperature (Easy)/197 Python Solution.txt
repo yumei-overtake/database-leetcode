@@ -1,0 +1,22 @@
+import pandas as pd
+
+def rising_temperature(weather: pd.DataFrame) -> pd.DataFrame:
+    #1. sort dataframe by date
+    weather = weather.sort_values('recordDate',ascending=True)
+    
+    # 2. Calculate differences for temperature and date
+    # .diff() calculates: current_row - previous_row
+    date_diff = weather['recordDate'].diff().dt.days
+    temp_diff = weather['temperature'].diff()
+
+    #3. filter the weather Dateframe where date_diff is 1 and temp_diff is >0
+    return weather[(date_diff==1) & (temp_diff>0)][['id']].rename(columns={'id':'Id'})
+
+
+#what is dt.days
+#.dt.days is a specialized Pandas accessor used to extract the number of days as an integer from a Timedelta object.
+# When you subtract two dates in Pandas, the result is not a simple number; it is a Timedelta (e.g., 1 days 00:00:00). To use that value in a mathematical comparison (like == 1), you must convert it into a raw integer using .dt.days.
+
+#weather = ... is create a new local weather variable
+
+# when do logical and & the equations on the two sides need to have ()
