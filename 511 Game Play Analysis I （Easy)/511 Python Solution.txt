@@ -1,0 +1,14 @@
+import pandas as pd
+
+def game_analysis(activity: pd.DataFrame) -> pd.DataFrame:
+    return activity.groupby('player_id')['event_date'].min().reset_index().rename(columns={'event_date':'first_login'})
+
+# note 1
+# groupby function result will use player_id as an index, instead of a real column
+
+
+# note 2
+# reset_index() is the key here
+# When you call reset_index() on a DataFrame where player_id is the index, the following two actions happen simultaneously:
+# 1. player_id becomes a data column: The original index is moved into the main table as a regular column. If the index already had the name "player_id" (common after a groupby), the new column will keep that exact name.
+# 2. A new numeric index is created: Pandas generates a fresh, sequential integer index starting from 0 to serve as the new row labels. 
