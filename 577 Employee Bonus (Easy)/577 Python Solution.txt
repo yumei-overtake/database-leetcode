@@ -1,0 +1,9 @@
+import pandas as pd
+
+def employee_bonus(employee: pd.DataFrame, bonus: pd.DataFrame) -> pd.DataFrame:
+    m = pd.merge(employee,bonus,on='empId',how='left')
+    return m[(m['bonus']<1000) | (m['bonus'].isna())][['name','bonus']]
+
+
+
+# isna() Pandas 3.0+ handles both NaN (numerical null) and None (object null) the same way using isna().
