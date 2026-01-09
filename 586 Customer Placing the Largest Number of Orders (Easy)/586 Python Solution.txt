@@ -1,0 +1,6 @@
+import pandas as pd
+
+def largest_orders(orders: pd.DataFrame) -> pd.DataFrame:
+    return orders.groupby('customer_number')[['order_number']].count().reset_index().nlargest(1,'order_number')[['customer_number']]
+
+    #nlargest() get the top 1 by the column, return a dataframe
