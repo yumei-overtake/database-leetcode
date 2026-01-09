@@ -1,0 +1,13 @@
+import pandas as pd
+
+def find_classes(courses: pd.DataFrame) -> pd.DataFrame:
+    #value_counts return a series, class would be index
+    counts = courses['class'].value_counts()
+
+    #get the class that has counts>=5
+    return counts[counts>=5].reset_index()[['class']]
+
+
+# the solution below is not good. since f is a waste to be created
+#    f= courses.groupby('class')[['student']].count().reset_index()
+#    return f[f['student']>=5][['class']]
