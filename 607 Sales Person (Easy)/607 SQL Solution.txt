@@ -1,0 +1,9 @@
+SELECT name
+FROM salesperson as s
+where sales_id not in (
+    select distinct o.sales_id
+    from orders as o
+    inner join Company as c 
+            on o.com_id=c.com_id
+    where lower(c.name) like 'red'
+)
