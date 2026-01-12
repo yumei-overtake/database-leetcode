@@ -1,0 +1,8 @@
+import pandas as pd
+
+def biggest_single_number(my_numbers: pd.DataFrame) -> pd.DataFrame:
+    s=my_numbers[~my_numbers['num'].duplicated(keep=False)]['num'].max()
+    return pd.DataFrame({'num':[s]})
+
+
+    #duplicated keep=False means mark all values with duplicates as True. keep (First, Last, False)
