@@ -1,0 +1,14 @@
+with A AS (
+SELECT distinct product_id
+FROM sales
+WHERE Sale_date<'2019-01-01'
+or sale_date>'2019-03-31'
+)
+SELECT distinct
+     s.product_id,
+     p.product_name
+FROM sales as s 
+inner join product as p
+        on s.product_id=p.product_id
+WHERE S.product_id not in (select product_id from a )
+and S.sale_date>='2019-01-01' and s.sale_date<='2019-03-31'

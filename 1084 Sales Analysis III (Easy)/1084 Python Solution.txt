@@ -1,0 +1,6 @@
+import pandas as pd
+
+def sales_analysis(product: pd.DataFrame, sales: pd.DataFrame) -> pd.DataFrame:
+    sales_not_in_q1= sales[(sales['sale_date']<'2019-01-01')|(sales['sale_date']>'2019-03-31')]['product_id']
+    product_filtered = sales[(~sales['product_id'].isin(sales_not_in_q1))&(sales['sale_date']>='2019-01-01') &(sales['sale_date']<='2019-03-31') ]['product_id']
+    return product[product['product_id'].isin(product_filtered)][['product_id','product_name']]
