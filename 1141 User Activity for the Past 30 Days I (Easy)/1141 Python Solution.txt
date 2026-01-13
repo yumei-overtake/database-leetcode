@@ -1,0 +1,5 @@
+import pandas as pd
+
+def user_activity(activity: pd.DataFrame) -> pd.DataFrame:
+    df = activity[(activity['activity_date']<='2019-07-27')& (activity['activity_date']+pd.Timedelta(days=30)>'2019-07-27' )]
+    return df.groupby('activity_date',as_index=False)['user_id'].nunique().rename(columns={'activity_date':'day','user_id':'active_users'})
