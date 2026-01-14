@@ -1,0 +1,16 @@
+import pandas as pd
+
+def reformat_table(department: pd.DataFrame) -> pd.DataFrame:
+     # 1. Pivot the data to move 'month' values to column headers
+    result=department.pivot(index='id',columns='month',values='revenue')
+
+    # 2. Reorder columns to match the required calendar order (Jan to Dec)
+    months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    result= result.reindex(columns=months)
+
+    # 3. Rename columns to include the suffix "_Revenue" and reset index
+    result.columns = [f"{m}_Revenue" for m in result.columns]
+
+    # id is now a index in result. need to reset_index()
+    return result.reset_index()
+    
