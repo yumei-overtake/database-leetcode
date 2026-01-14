@@ -1,0 +1,27 @@
+/* Write your T-SQL query statement below */
+/* 1. date is before 1st change_date
+   2. date is between 2 exiting change dates
+   3. date is after last change_date
+*/
+
+/*
+use row_number to get latest change. if no latest change, then 10 as price
+*/
+WITH A AS (
+SELECT *,
+       row_number() over (partition by product_id order by change_date desc) as rn
+FROM Products
+WHERE change_date<='2019-08-16'  ---* this is the key
+),
+B AS (
+SELECT product_id,
+       new_price as price
+FROM A 
+WHERE RN=1
+)
+SELECT distinct p.product_id,
+       10 as price
+FROM Products as p
+WHERE P.product_id not in (select product_id from b)
+union all 
+select * from b

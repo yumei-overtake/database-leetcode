@@ -1,0 +1,10 @@
+import pandas as pd
+
+def immediate_food_delivery(delivery: pd.DataFrame) -> pd.DataFrame:
+    #Get first orders
+    df = delivery.sort_values(by=['customer_id','order_date']).drop_duplicates('customer_id',keep='first')
+
+    # get immediate delivery ratio of all first orders
+    ratio =(df['order_date']==df['customer_pref_delivery_date']).mean()*100
+
+    return pd.DataFrame({'immediate_percentage':[round(ratio,2)]})

@@ -1,0 +1,9 @@
+import pandas as pd
+
+def price_at_given_date(products: pd.DataFrame) -> pd.DataFrame:
+    df = products[products['change_date']<='2019-08-16'].sort_values(by='change_date',ascending=False) \
+        .groupby('product_id')[['product_id','new_price']].head(1).rename(columns={'new_price':'price'})
+    # get all product_ids
+    df_p = products[['product_id']].drop_duplicates()
+
+    return df_p.merge(df, how='left',on='product_id').fillna(10)
