@@ -1,0 +1,17 @@
+/* Write your T-SQL query statement below */
+WITH T AS (
+SELECT person_id,
+       person_name,
+       turn,
+  ----create cumulative sum
+       sum(weight) over (order by turn asc) as weight_cum
+FROM Queue
+)
+SELECT top 1
+       person_name
+FROM T
+WHERE weight_cum<=1000
+order by turn desc
+
+
+---- key is to create cumulative total of weight

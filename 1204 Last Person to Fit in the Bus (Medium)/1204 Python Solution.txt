@@ -1,0 +1,12 @@
+import pandas as pd
+
+def last_passenger(queue: pd.DataFrame) -> pd.DataFrame:
+    # sort_values first and modify the original queue df
+    queue = queue.sort_values(by='turn', ascending=True)
+    queue['cum_weight']= queue['weight'].cumsum()
+    df= queue[queue['cum_weight']<=1000]
+    return df[['person_name']].tail(1)
+
+
+
+    # cumsum() return cumulative total. can use on a column or with a groupby()

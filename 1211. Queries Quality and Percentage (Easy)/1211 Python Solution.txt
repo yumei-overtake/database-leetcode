@@ -1,0 +1,13 @@
+import pandas as pd
+
+round2 = lambda x: round(x + 1e-9, 2)
+
+
+def queries_stats(queries: pd.DataFrame) -> pd.DataFrame:
+    queries['quality']=queries['rating']*1.0/queries['position']
+    queries['poor_query_percentage']= np.where(queries['rating']<3,1,0)*100.0
+
+    return queries.groupby('query_name')[['quality','poor_query_percentage']].mean().apply(round2).reset_index()
+
+
+## round2 UDF is for a coner test case. most of times use round(2) would be sufficient
