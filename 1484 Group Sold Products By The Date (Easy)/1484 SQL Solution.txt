@@ -1,0 +1,11 @@
+/* Write your T-SQL query statement below */
+SELECT sell_date,
+       count( product) as num_sold ,
+       string_agg( product,',') within group (order by product) as products                     
+FROM  (SELECT DISTINCT * FROM Activities) AS T 
+group by sell_date
+order by sell_date
+
+
+---- select from distinct 
+---- string_agg( ) within group (order by ) is the string function to do the string concat

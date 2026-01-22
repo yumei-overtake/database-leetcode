@@ -1,0 +1,13 @@
+import pandas as pd
+
+def categorize_products(activities: pd.DataFrame) -> pd.DataFrame:
+    activities = activities.drop_duplicates()
+    df = activities.groupby('sell_date').agg (
+        num_sold= ('product','count'),
+        products = ('product', lambda x: ','.join(sorted(x)))
+    ).reset_index()
+    return df.sort_values(by='sell_date')
+
+
+
+## lambda x: ','.join(x)   will concat x with ,  

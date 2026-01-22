@@ -1,0 +1,29 @@
+/* Write your T-SQL query statement below */
+WITH A AS (
+SELECT top 1 
+        u.name as results,
+       count(mr.movie_id) as num_of_movies
+FROM MovieRating as mr
+INNER JOIN users as u 
+            on u.user_id=mr.user_id
+group by u.name
+order by 2 desc, 1 asc 
+),
+ B AS (
+    SELECT top 1 
+           m.title as results,
+           avg(rating*1.0) as avg_rating
+    FROM MovieRating as mr
+    INNER JOIN Movies as m 
+                on mr.movie_id =m.movie_id
+    WHERE mr.created_at>='2020-02-01'
+    and mr.created_at<'2020-03-01'
+    group by m.title
+    order by 2 desc, 1 asc
+ )
+ SELECT results 
+ from a
+ UNION ALL
+ SELECT results 
+ from b
+

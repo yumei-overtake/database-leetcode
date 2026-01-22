@@ -1,0 +1,7 @@
+import pandas as pd
+
+def list_products(products: pd.DataFrame, orders: pd.DataFrame) -> pd.DataFrame:
+    feb_orders = orders[(orders['order_date']>='2020-02-01') & (orders['order_date']<'2020-03-01')]
+    df = feb_orders.groupby('product_id')['unit'].sum().reset_index()
+    df2 = df.merge(products, on='product_id',how='inner')[['product_name','unit']]
+    return df2[df2['unit']>=100]

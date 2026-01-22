@@ -1,0 +1,6 @@
+/* Write your T-SQL query statement below */
+SELECT uni.unique_id,
+        ee.name
+FROM Employees as ee
+left join EmployeeUNI as uni
+        on ee.id =uni.id

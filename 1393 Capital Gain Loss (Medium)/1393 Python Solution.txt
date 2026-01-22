@@ -1,0 +1,5 @@
+import pandas as pd
+
+def capital_gainloss(stocks: pd.DataFrame) -> pd.DataFrame:
+    stocks['net_price'] = stocks.apply(lambda x: -x['price'] if x['operation']=='Buy' else x['price'], axis=1)
+    return stocks.groupby('stock_name')['net_price'].sum().reset_index().rename(columns={'net_price':'capital_gain_loss'})

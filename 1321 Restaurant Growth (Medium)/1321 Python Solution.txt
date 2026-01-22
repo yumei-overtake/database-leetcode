@@ -1,0 +1,7 @@
+import pandas as pd
+
+def restaurant_growth(customer: pd.DataFrame) -> pd.DataFrame:
+    df = customer.groupby('visited_on')[['amount']].sum().sort_index()
+    df['average_amount']=df['amount'].rolling(window='7D').mean().round(2)
+    df['amount']=df['amount'].rolling(window='7D').sum()
+    return df.reset_index().iloc[6:]

@@ -1,0 +1,8 @@
+import pandas as pd
+
+def movie_rating(movies: pd.DataFrame, users: pd.DataFrame, movie_rating: pd.DataFrame) -> pd.DataFrame:
+    df1 = movie_rating.merge(users, on='user_id',how='inner')[['name','movie_id']]
+    df2= movie_rating.merge(movies,on='movie_id', how='inner')[['title','rating','created_at']]
+    df1= df1.groupby('name').agg(cnt=('movie_id','count')).reset_index().sort_values(by=['cnt','name'],ascending=[False,True]).iloc[0]
+    df2 =df2[(df2['created_at'].dt.month==2) & (df2['created_at'].dt.year==2020)].groupby('title').agg(avgrating=('rating','mean')).reset_index().sort_values(by=['avgrating','title'],ascending=[False,True]).iloc[0]
+    return pd.concat( [df1[['name']] ,df2[['title']] ]).to_frame(name='results')

@@ -1,0 +1,21 @@
+/* Write your T-SQL query statement below */
+    -- Step 1: Aggregate daily amounts since multiple customers can visit on the same day
+with t1 as (
+    SELECT visited_on,
+           sum(amount) as amount
+    FROM Customer
+    group by visited_on
+),
+ a as (
+SELECT visited_on,
+       row_number() over (order by visited_on asc) as rn,
+       sum(amount) over (order by visited_on asc rows between 6 preceding and current row) as amount,
+       round(avg(amount*1.0) over (order by visited_on asc rows between 6 preceding and current row) ,2)as average_amount        
+FROM t1
+)
+SELECT visited_on,
+        amount,
+        average_amount
+FROM A 
+where rn>6
+order by rn
