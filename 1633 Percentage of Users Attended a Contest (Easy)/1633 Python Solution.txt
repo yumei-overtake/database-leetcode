@@ -1,0 +1,7 @@
+import pandas as pd
+
+def users_percentage(users: pd.DataFrame, register: pd.DataFrame) -> pd.DataFrame:
+    total_users = len(users)
+    df = register.groupby('contest_id').size().reset_index(name='cnt')
+    df['percentage']= round((df['cnt']/total_users)*100,2)
+    return df[['contest_id','percentage']].sort_values(by=['percentage','contest_id'],ascending=[False,True])

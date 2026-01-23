@@ -1,0 +1,5 @@
+import pandas as pd
+
+def find_customers(visits: pd.DataFrame, transactions: pd.DataFrame) -> pd.DataFrame:
+    df= visits[~visits['visit_id'].isin(transactions['visit_id'])]
+    return df.groupby('customer_id').size().to_frame(name='count_no_trans').reset_index()

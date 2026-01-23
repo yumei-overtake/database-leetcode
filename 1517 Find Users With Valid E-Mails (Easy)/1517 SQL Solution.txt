@@ -1,0 +1,8 @@
+/* Write your T-SQL query statement below */
+SELECT *
+FROM users
+WHERE REGEXP_LIKE(mail, '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\.com$', 'c');
+
+---- this can't run in leetcode ,since leetcode is not using sql server 2025 or Azure sql
+
+---'c' means case sensitive

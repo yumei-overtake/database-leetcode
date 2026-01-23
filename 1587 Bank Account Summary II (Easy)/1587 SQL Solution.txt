@@ -1,0 +1,8 @@
+/* Write your T-SQL query statement below */
+SELECT u.name,
+        sum(amount ) as balance    
+FROM users as u
+INNER JOIN Transactions as t
+        on u.account = t.account
+GROUP BY u.name
+having sum(amount)>10000

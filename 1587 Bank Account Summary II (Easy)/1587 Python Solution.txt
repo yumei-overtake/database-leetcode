@@ -1,0 +1,6 @@
+import pandas as pd
+
+def account_summary(users: pd.DataFrame, transactions: pd.DataFrame) -> pd.DataFrame:
+    df = transactions.groupby('account')['amount'].sum().reset_index().rename(columns={'amount':'balance'})
+    df2 = users.merge(df,on='account',how='inner')[['name','balance']]
+    return df2[df2['balance']>10000]
