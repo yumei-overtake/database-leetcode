@@ -1,0 +1,16 @@
+CREATE FUNCTION getNthHighestSalary(@N INT) RETURNS INT AS
+BEGIN
+    RETURN (
+        /* Write your T-SQL query statement below. */
+        SELECT DISTINCT SALARY
+        FROM  (
+            SELECT *,
+               dense_rank () over (order by salary desc ) AS RNK
+        FROM employee) AS T
+        WHERE RNK=@N
+    );
+END
+
+
+
+----- CREATE FUNCTION CAN'T HAVE CTE .
