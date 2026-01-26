@@ -1,0 +1,6 @@
+import pandas as pd
+
+def find_managers(employee: pd.DataFrame) -> pd.DataFrame:
+    df = employee.groupby('managerId')['id'].nunique().reset_index().rename(columns={'id':'cnt'})
+    mgr = df[df['cnt']>=5]['managerId'].unique()
+    return employee[employee['id'].isin(mgr)][['name']]
