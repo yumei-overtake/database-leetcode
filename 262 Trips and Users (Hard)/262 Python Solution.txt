@@ -1,0 +1,14 @@
+import pandas as pd
+
+def trips_and_users(trips: pd.DataFrame, users: pd.DataFrame) -> pd.DataFrame:
+    df =trips[(trips['request_at']>="2013-10-01") & (trips['request_at']<="2013-10-03")  ]
+
+    banned_users = users[users['banned']=='Yes']['users_id']
+
+    df = df[(~df['driver_id'].isin(banned_users)) & (~df['client_id'].isin(banned_users))]
+
+    df['is_cancelled']= np.where( df['status'].str.contains('cancelled'),1,0)
+
+    # cancellation rate can directly calcuated using mean.
+    result =df.groupby('request_at')['is_cancelled'].mean().round(2).reset_index()
+    return result[['request_at','is_cancelled']].rename(columns={'request_at':'Day','is_cancelled':'Cancellation Rate'})

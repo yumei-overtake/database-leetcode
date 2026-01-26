@@ -1,0 +1,7 @@
+import pandas as pd
+
+def gameplay_analysis(activity: pd.DataFrame) -> pd.DataFrame:
+    activity['first_login'] = activity.groupby('player_id')['event_date'].transform('min')
+    t =activity[activity['event_date']== activity['first_login']+ pd.Timedelta(days=1)]['player_id'].nunique()
+    f = activity['player_id'].nunique()
+    return pd.DataFrame({'fraction':[round(t*1.0/f,2)]})

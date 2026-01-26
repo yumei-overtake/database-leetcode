@@ -1,0 +1,15 @@
+/* Write your T-SQL query statement below */
+with a as (
+    SELECT d.name as Department,
+        e.name as employee,
+        e.salary,
+        dense_rank () over (partition by d.id order by e.salary desc) as rnk
+FROM Department as d
+Inner JOIN Employee AS E 
+    ON d.id=e.departmentID
+)
+select Department,
+       Employee,
+       Salary
+from a 
+where rnk =1

@@ -1,0 +1,12 @@
+/* Write your T-SQL query statement below */
+with fl AS (
+    SELECT player_id,
+           min(event_date) as first_login
+    FROM activity
+    group by player_id
+)
+SELECT round(count(distinct a.player_id)*1.0/ count(distinct fl.player_id),2) as fraction  
+FROM fl
+left join activity as a 
+        on fl.player_id =a.player_id
+        and dateadd(day,1, fl.first_login) = a.event_date

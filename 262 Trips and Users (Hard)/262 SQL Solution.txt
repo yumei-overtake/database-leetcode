@@ -1,0 +1,13 @@
+/* Write your T-SQL query statement below */
+SELECT t.request_at as Day,
+       round(sum(case when t.status like 'cancelled%' then 1 else 0 end )*1.0/count(*),2) as 'Cancellation Rate'
+FROM Trips as T
+INNER JOIN Users as u_c 
+        ON U_C.users_id =T.Client_id
+INNER JOIN Users as u_d
+        ON u_d.users_id=T.driver_id
+WHERE u_c.banned='No'
+and u_d.banned='No'
+and t.request_at>='2013-10-01'
+and t.request_at<='2013-10-03'
+group by t.request_at
