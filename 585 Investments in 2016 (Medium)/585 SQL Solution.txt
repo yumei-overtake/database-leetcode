@@ -1,0 +1,25 @@
+/* Write your T-SQL query statement below */
+with T1 AS (
+SELECT tiv_2015
+FROM Insurance 
+group by tiv_2015
+having count(*)>1
+),
+T2 AS (
+    SELECT lat,lon
+    FROM Insurance
+    Group by lat,lon
+    having count(*)=1
+)
+SELECT round(sum(i.tiv_2016),2) as tiv_2016
+FROM Insurance as i 
+inner join t1 on
+        t1.tiv_2015 =i.tiv_2015
+inner join t2 
+        on i.lat=t2.lat
+        and i.lon=t2.lon
+
+
+
+
+---Do not filter tiv_2015, then calculate the lat,lon unique combination. the unique combination should be applied on the inital dataset.

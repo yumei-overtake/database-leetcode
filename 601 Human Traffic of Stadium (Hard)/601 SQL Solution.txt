@@ -1,0 +1,23 @@
+/* Write your T-SQL query statement below */
+/*The Gaps and Islands" Solution
+This method identifies consecutive records by subtracting a sequential ROW_NUMBER() from the id. For consecutive IDs, 
+this difference remains constant, creating a unique "group ID" for each island of data */
+
+with T AS (
+SELECT *,
+       id - (row_number() over (order by id)) as gap
+FROM Stadium
+where people>=100
+), 
+T2 AS (
+SELECT gap
+FROM T
+GROUP BY Gap
+Having count(*)>=3
+)
+SELECT id,
+       visit_date,
+       people
+FROM T 
+WHERE T.GAP IN (SELECT GAP FROM T2)
+order by visit_date asc

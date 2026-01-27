@@ -1,0 +1,9 @@
+import pandas as pd
+
+
+def tree_node(tree: pd.DataFrame) -> pd.DataFrame:
+    parents = tree['p_id'].dropna().unique()
+    tree['type'] =tree.apply(lambda x: 'Root' if pd.isna(x['p_id']) else ('Inner' if x['id'] in parents else 'Leaf' ),axis=1 )
+    return tree[['id','type']].drop_duplicates()
+
+    ## df.appy  here need to have axis=1 , which means apply on the column-wise

@@ -1,0 +1,8 @@
+import pandas as pd
+
+def most_friends(request_accepted: pd.DataFrame) -> pd.DataFrame:
+    df = pd.concat( [request_accepted[['requester_id']].rename(columns={'requester_id':'id'}),request_accepted[['accepter_id']].rename(columns={'accepter_id':'id'})],axis=0) 
+    return df.groupby('id')['id'].count().reset_index(name='num').sort_values(by='num', ascending=False).head(1)
+
+
+    #axis =0 is concat by row

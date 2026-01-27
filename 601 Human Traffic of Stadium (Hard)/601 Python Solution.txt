@@ -1,0 +1,7 @@
+import pandas as pd
+
+def human_traffic(stadium: pd.DataFrame) -> pd.DataFrame:
+    df = stadium[stadium['people']>=100]
+    df['grp']=df['id'] - df['id'].rank(ascending=True)
+    df['cnt']=df.groupby('grp')['id'].transform('count')
+    return df[df['cnt']>=3][['id','visit_date','people']].sort_values(by='visit_date')

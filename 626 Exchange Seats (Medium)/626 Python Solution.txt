@@ -1,0 +1,18 @@
+import pandas as pd
+
+def exchange_seats(seat: pd.DataFrame) -> pd.DataFrame:
+    max_id = seat['id'].max()
+
+    odd  =  (seat['id']%2==1)& (seat['id']+1<=max_id)
+    even = seat['id']%2==0
+
+    seat.loc[odd,'id']= seat.loc[odd,'id']+1
+    seat.loc[even,'id']= seat.loc[even,'id']-1
+
+    return seat[['id','student']].sort_values(by='id')
+
+
+#wrong code: seat[odd]['new_id']= seat[odd]['id']+1
+#the code above won't create a new_id field in the seat dataframe.
+#because `seat[odd]` creates a **subset copy (a new DataFrame object)** rather than a view of the original, resulting in a `SettingWithCopyWarning` and no persistent changes.
+# To fix this, use `.loc[row_indexer, col_indexer] = value` to modify the original DataFrame directly.

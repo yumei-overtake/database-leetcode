@@ -1,0 +1,16 @@
+/* Write your T-SQL query statement below */
+WITH T AS (
+SELECT *
+FROM RequestAccepted
+UNION 
+SELECT accepter_id     AS requester_id   ,
+        requester_id   AS accepter_id    ,
+        accept_date    
+FROM RequestAccepted
+)
+SELECT  top 1 
+        requester_id AS id,
+        COUNT(*) AS NUM
+FROM T 
+GROUP BY requester_id
+order by 2 desc
