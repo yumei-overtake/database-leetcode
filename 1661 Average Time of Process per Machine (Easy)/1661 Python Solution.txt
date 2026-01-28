@@ -1,0 +1,7 @@
+import pandas as pd
+
+def get_average_time(activity: pd.DataFrame) -> pd.DataFrame:
+    df = activity.merge(activity, on=['machine_id','process_id'],how='inner',suffixes =['_s','_e'])
+    df = df[(df['activity_type_s']=='start') & (df['activity_type_e']=='end')]
+    df['time_diff']= df['timestamp_e']-df['timestamp_s']
+    return df.groupby('machine_id').agg(processing_time=('time_diff','mean') ).round(3).reset_index()
