@@ -1,0 +1,14 @@
+import pandas as pd
+
+def count_employees(employees: pd.DataFrame) -> pd.DataFrame:
+    df=employees.merge(employees, left_on='employee_id',right_on='reports_to',suffixes=['','_ee'])
+    result = df.groupby(['employee_id','name']).agg(reports_count=('employee_id_ee','nunique'),
+                 average_age =('age_ee','mean') ).reset_index()
+    result['average_age'] = (result['average_age']+ 1e-9).round(0)
+    return result.sort_values(by='employee_id')
+
+
+
+    # round(0) behavior is interesting when number is 2.5 or 3.5. with .5 it will round to the nearest even one
+    # for example 2.5 will be 2, while 3.5 will be 4
+    # so we will need to add 1e-9 to make the behavior consistent
