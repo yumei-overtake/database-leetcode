@@ -1,0 +1,6 @@
+import pandas as pd
+
+def find_primary_department(employee: pd.DataFrame) -> pd.DataFrame:
+    df = employee.groupby('employee_id').size().reset_index(name='num')
+    df=df[df['num']==1]
+    return employee[(employee['primary_flag']=='Y') | (employee['employee_id'].isin(df['employee_id']))][['employee_id','department_id']]
