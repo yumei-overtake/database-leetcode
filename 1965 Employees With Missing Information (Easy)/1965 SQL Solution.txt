@@ -1,0 +1,8 @@
+/* Write your T-SQL query statement below */
+SELECT isnull(ee.employee_id,s.employee_id) as employee_id
+FROM Employees as ee
+FULL OUTER JOIN Salaries as s 
+        on ee.employee_id=s.employee_id
+WHERE ee.name is null 
+or s.salary is null
+order by 1 asc
